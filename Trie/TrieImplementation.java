@@ -1,5 +1,5 @@
 package Trie;
-
+import java.util.*;
 public class TrieImplementation {
     static class Node {
         Node[] children = new Node[26];
@@ -28,6 +28,20 @@ public class TrieImplementation {
         curr.eow = true;
     }
 
+    public static boolean wordBreak(String key) {
+        if(key.length() == 0) {
+            return true;
+        }
+
+        for(int i=1; i<=key.length(); i++) {
+            if(search(key.substring(0, i)) && wordBreak(key.substring(i))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean search(String word) {
         Node curr = root;
         for(int level=0; level<word.length(); level++) {
@@ -41,12 +55,13 @@ public class TrieImplementation {
         return curr.eow == true;
     }
     public static void main(String[] args) {
-        String[] words = {"the", "a", "there", "their", "any", "thee"};
+        String[] words = {"i", "like", "sam", "samsung", "mobile", "ice"};
         for(int i=0; i<words.length; i++) {
             insert(words[i]);
         }
 
-        System.out.println(search("the"));
-        System.out.println(search("an"));
+        String key = "ilikesamsung";
+
+        System.out.println(wordBreak(key));
     }
 }
